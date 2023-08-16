@@ -12,67 +12,69 @@ use test::moretests1::*;
 use test::moretests2::*;
 use yew::prelude::*;
 
+// GOALS:
+// TODO - OPTIONAL: Implement some not dogwater looking css/UI
 #[function_component(App)]
 fn app() -> Html {
     // walkthrough based upon: https://yew.rs/docs/tutorial#handling-state
     // run with `trunk serve --proxy-backend=https://yew.rs/tutorial` if using rest api to retrieve data or `trunk serve --open` otherwise
     // videos vec
-    // let videos_vec = vec![
-    //     Video {
-    //         id: 1,
-    //         title: "Building and breaking things".to_string(),
-    //         speaker: "John Doe".to_string(),
-    //         url: "https://youtu.be/PsaFVLr8t4E".to_string(),
-    //     },
-    //     Video {
-    //         id: 2,
-    //         title: "The development process".to_string(),
-    //         speaker: "Jane Smith".to_string(),
-    //         url: "https://youtu.be/PsaFVLr8t4E".to_string(),
-    //     },
-    //     Video {
-    //         id: 3,
-    //         title: "The Web 7.0".to_string(),
-    //         speaker: "Matt Miller".to_string(),
-    //         url: "https://youtu.be/PsaFVLr8t4E".to_string(),
-    //     },
-    //     Video {
-    //         id: 4,
-    //         title: "Mouseless development".to_string(),
-    //         speaker: "Tom Jerry".to_string(),
-    //         url: "https://youtu.be/PsaFVLr8t4E".to_string(),
-    //     },
-    //     Video {
-    //         id: 5,
-    //         title: "More Development work".to_string(),
-    //         speaker: "Bobs Burgers".to_string(),
-    //         url: "https://youtu.be/PsaFVLr8t4E".to_string(),
-    //     },
-    // ];
+    let videos_vec = vec![
+        Video {
+            id: 1,
+            title: "Building and breaking things".to_string(),
+            speaker: "John Doe".to_string(),
+            url: "https://youtu.be/PsaFVLr8t4E".to_string(),
+        },
+        Video {
+            id: 2,
+            title: "The development process".to_string(),
+            speaker: "Jane Smith".to_string(),
+            url: "https://youtu.be/PsaFVLr8t4E".to_string(),
+        },
+        Video {
+            id: 3,
+            title: "The Web 7.0".to_string(),
+            speaker: "Matt Miller".to_string(),
+            url: "https://youtu.be/PsaFVLr8t4E".to_string(),
+        },
+        Video {
+            id: 4,
+            title: "Mouseless development".to_string(),
+            speaker: "Tom Jerry".to_string(),
+            url: "https://youtu.be/PsaFVLr8t4E".to_string(),
+        },
+        Video {
+            id: 5,
+            title: "More Development work".to_string(),
+            speaker: "Bobs Burgers".to_string(),
+            url: "https://youtu.be/PsaFVLr8t4E".to_string(),
+        },
+    ];
 
     // get videos from rest api
-    let videos_vec = use_state(|| vec![]);
-    {
-        // query https api
-        let videos_vec = videos_vec.clone();
-        use_effect_with_deps(
-            move |_| {
-                let videos_vec = videos_vec.clone();
-                wasm_bindgen_futures::spawn_local(async move {
-                    let fetched_videos: Vec<Video> = Request::get("/tutorial/data.json")
-                        .send()
-                        .await
-                        .unwrap()
-                        .json()
-                        .await
-                        .unwrap();
-                    videos_vec.set(fetched_videos);
-                });
-                || ()
-            },
-            (),
-        );
-    }
+    // let videos_vec = use_state(|| vec![]);
+    // {
+    //     // query https api
+    //     let videos_vec = videos_vec.clone();
+    //     use_effect_with_deps(
+    //         move |_| {
+    //             let videos_vec = videos_vec.clone();
+    //             wasm_bindgen_futures::spawn_local(async move {
+    //                 let fetched_videos: Vec<Video> = Request::get("/tutorial/data.json")
+    //                     .send()
+    //                     .await
+    //                     .unwrap()
+    //                     .json()
+    //                     .await
+    //                     .unwrap();
+    //                 videos_vec.set(fetched_videos);
+    //             });
+    //             || ()
+    //         },
+    //         (),
+    //     );
+    // }
 
     // songs vec
     let song_vec = vec![
@@ -103,7 +105,6 @@ fn app() -> Html {
     //     })
     //     .collect::<Html>();
 
-    // TODO: Research Handling state and Fetching external Rest API data
     // TODO: Code Review
 
     let selected_video = use_state(|| None);
@@ -134,6 +135,14 @@ fn app() -> Html {
         }
     });
 
+    // js
+    //let daily_script =
+    let script_content = r#"
+    callFrame = window.DailyIframe.createFrame();
+    callFrame.join({ url: 'https://dogwater.daily.co/82K7pkvN7t3uOikfdjFl' });
+    "#;
+
+    // -------------------------------------------------------
     // Returned HTML
     html! {
         <>
@@ -145,7 +154,9 @@ fn app() -> Html {
                 // <p>{ "Matt Miller: The Web 7.0" }</p>
                 // <p>{ "Tom Jerry: Mouseless development" }</p>
                 //{videos}
-                <VideosList videos={(*videos_vec).clone()} on_click={on_video_select.clone()} />
+                //<VideosList videos={(*videos_vec).clone()} on_click={on_video_select.clone()} />
+                <VideosList videos={videos_vec.clone()} on_click={on_video_select.clone()} />
+
 
             </div>
             // <div>
@@ -164,6 +175,9 @@ fn app() -> Html {
             // </div>
             // Appended Code ----------------
             // display values of newly created code
+            <div>
+                <script>{script_content}</script>
+            </div>
 
 
         </>
