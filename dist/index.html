@@ -2,11 +2,13 @@
         <meta charset="UTF-8">
         <title>Yew - Daily Application</title>
     <script crossorigin="" src="https://unpkg.com/@daily-co/daily-js">
-    </script></head>
+    </script>
+<link rel="preload" href="/yew_daily_webrtc_project-f230cdea493a5b46_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/yew_daily_webrtc_project-f230cdea493a5b46.js"></head>
     
     <body>
     
-<script>(function () {
+<script type="module">import init from '/yew_daily_webrtc_project-f230cdea493a5b46.js';init('/yew_daily_webrtc_project-f230cdea493a5b46_bg.wasm');</script><script>(function () {
     var protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     var url = protocol + '//' + window.location.host + '/_trunk/ws';
     var poll_interval = 5000;

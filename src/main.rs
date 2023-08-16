@@ -13,9 +13,6 @@ use test::moretests2::*;
 use yew::prelude::*;
 
 // GOALS:
-// TODO: Experiment/Research with Daily.co - in progress
-// TODO: Review Daily.co
-// TODO: Implement Basic solution for connecting to Daily instance with Yew
 // TODO - OPTIONAL: Implement some not dogwater looking css/UI
 #[function_component(App)]
 fn app() -> Html {
